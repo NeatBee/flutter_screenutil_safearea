@@ -1,6 +1,6 @@
 name: flutter_screenutil_safearea
 description: A custom version of flutter_screenutil for adapting screen and font size with safe area consideration.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/neatbee/flutter_screenutil_safearea
 
 environment:
