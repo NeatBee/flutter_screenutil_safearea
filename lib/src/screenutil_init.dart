@@ -79,6 +79,7 @@ class ScreenUtilInit extends StatefulWidget {
     this.responsiveWidgets,
     this.excludeWidgets,
     this.fontSizeResolver = FontSizeResolvers.width,
+    this.designIncludesSafeArea = true,
   }) : super(key: key);
 
   final ScreenUtilInitBuilder? builder;
@@ -96,6 +97,7 @@ class ScreenUtilInit extends StatefulWidget {
   final Size designSize;
   final Iterable<String>? responsiveWidgets;
   final Iterable<String>? excludeWidgets;
+  final bool designIncludesSafeArea;
 
   @override
   State<ScreenUtilInit> createState() => _ScreenUtilInitState();
@@ -187,6 +189,7 @@ class _ScreenUtilInitState extends State<ScreenUtilInit> with WidgetsBindingObse
         splitScreenMode: widget.splitScreenMode,
         minTextAdapt: widget.minTextAdapt,
         fontSizeResolver: widget.fontSizeResolver,
+        designIncludesSafeArea: widget.designIncludesSafeArea,
       );
 
       return widget.builder?.call(context, widget.child) ?? widget.child!;
@@ -201,6 +204,7 @@ class _ScreenUtilInitState extends State<ScreenUtilInit> with WidgetsBindingObse
           splitScreenMode: widget.splitScreenMode,
           minTextAdapt: widget.minTextAdapt,
           fontSizeResolver: widget.fontSizeResolver,
+          designIncludesSafeArea: widget.designIncludesSafeArea,
         );
 
         if (snapshot.connectionState == ConnectionState.done) {
