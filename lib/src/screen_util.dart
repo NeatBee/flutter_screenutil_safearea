@@ -31,6 +31,7 @@ class ScreenUtil {
   late MediaQueryData _data;
   late bool _splitScreenMode;
   FontSizeResolver? fontSizeResolver;
+  late bool _designIncludesSafeArea;
 
   ScreenUtil._();
 
@@ -114,6 +115,7 @@ class ScreenUtil {
     bool? splitScreenMode,
     bool? minTextAdapt,
     FontSizeResolver? fontSizeResolver,
+    bool designIncludesSafeArea = true,
   }) {
     try {
       if (data != null)
@@ -125,6 +127,7 @@ class ScreenUtil {
         _instance._uiSize = designSize;
       else
         designSize = _instance._uiSize;
+        _instance._designIncludesSafeArea = designIncludesSafeArea;
     } catch (_) {
       throw Exception(
           'You must either use ScreenUtil.init or ScreenUtilInit first');
@@ -154,6 +157,7 @@ class ScreenUtil {
     bool splitScreenMode = false,
     bool minTextAdapt = false,
     FontSizeResolver? fontSizeResolver,
+    bool designIncludesSafeArea = true,
   }) {
     final view = View.maybeOf(context);
     return configure(
@@ -162,6 +166,7 @@ class ScreenUtil {
       splitScreenMode: splitScreenMode,
       minTextAdapt: minTextAdapt,
       fontSizeResolver: fontSizeResolver,
+      designIncludesSafeArea: designIncludesSafeArea,
     );
   }
 
@@ -171,6 +176,7 @@ class ScreenUtil {
     bool splitScreenMode = false,
     bool minTextAdapt = false,
     FontSizeResolver? fontSizeResolver,
+    bool designIncludesSafeArea = true,
   }) {
     return ScreenUtil.ensureScreenSize().then((_) {
       return init(
@@ -179,6 +185,7 @@ class ScreenUtil {
         minTextAdapt: minTextAdapt,
         splitScreenMode: splitScreenMode,
         fontSizeResolver: fontSizeResolver,
+        designIncludesSafeArea: designIncludesSafeArea,
       );
     });
   }
@@ -197,11 +204,15 @@ class ScreenUtil {
 
   /// 当前设备宽度 dp
   /// The horizontal extent of this size.
-  double get screenWidth => _data.size.width;
+  double get screenWidth => _designIncludesSafeArea 
+    ? _data.size.width 
+    : _data.size.width - _data.padding.left - _data.padding.right;
 
   ///当前设备高度 dp
   ///The vertical extent of this size. dp
-  double get screenHeight => _data.size.height;
+  double get screenHeight => _designIncludesSafeArea 
+    ? _data.size.height 
+    : _data.size.height - _data.padding.top - _data.padding.bottom;
 
   /// 状态栏高度 dp 刘海屏会更高
   /// The offset from the top, in dp
